@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".AllStudentsActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="أسماء الطلاب"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:fontFamily="@font/cairo"
+        android:layout_marginTop="16dp" />
+
+    <ListView
+        android:id="@+id/listView_student_presence"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_margin="8dp"
+        />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="64dp"
+        android:layout_margin="16dp"
+        android:text="اضافة"
+        android:fontFamily="@font/cairo"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>

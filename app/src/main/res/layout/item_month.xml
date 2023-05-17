@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shabe2"
+    android:layout_marginTop="16dp">
+
+    <TextView
+        android:id="@+id/tv_month"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="يناير"
+        android:layout_margin="16dp"
+        android:textSize="24dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/cairo"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:gravity="center_horizontal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

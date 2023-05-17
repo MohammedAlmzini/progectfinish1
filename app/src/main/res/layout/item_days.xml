@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/purple_200"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:id="@+id/tv_dayes"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/cairo"
+        android:textStyle="bold"
+        android:gravity="center_horizontal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

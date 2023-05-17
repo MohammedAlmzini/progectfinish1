@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="الرئيسية"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:fontFamily="@font/cairo"
+        android:layout_marginTop="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/backcard"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/tv_name_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mohammed Almzini"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/cairo"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tv_email_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mohamme@gmail.com"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/cairo"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recvSupject"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/lin_add_gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="88dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/backlinyer"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:elevation="10dp"
+
+            >
+
+        <LinearLayout
+            android:id="@+id/add_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+
+
+            >
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/add_icon"
+                android:layout_margin="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="إضافة طالب"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/cairo"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height=".5dp"
+                android:background="@color/black"
+                />
+        <LinearLayout
+            android:id="@+id/add_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+
+            >
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/add_icon"
+                android:layout_margin="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="إضافة مادة"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/cairo"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="62dp"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/cairo"
+            android:text="عرض الطلاب"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/my_image_button"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@drawable/add_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="98dp"
+            android:layout_marginStart="28dp"
+            android:elevation="10dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
