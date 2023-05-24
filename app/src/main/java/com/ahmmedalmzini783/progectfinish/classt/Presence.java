@@ -1,4 +1,4 @@
-package com.ahmmedalmzini783.progectfinish;
+package com.ahmmedalmzini783.progectfinish.classt;
 
 public class Presence {
     private int id;

@@ -1,11 +1,13 @@
-package com.ahmmedalmzini783.progectfinish;
+package com.ahmmedalmzini783.progectfinish.adoapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.ahmmedalmzini783.progectfinish.classt.Presence;
+import com.ahmmedalmzini783.progectfinish.R;
 
 import java.util.ArrayList;
 
@@ -13,13 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRecyclerAdapterSupject.MyHolder> {
+public class CustomRecyclerAdapterDayes extends RecyclerView.Adapter<CustomRecyclerAdapterDayes.MyHolder> {
 
     Context context;
-    ArrayList<Subject> data;
+    ArrayList<Presence> data;
     onItemClickListener listener;
 
-    public CustomRecyclerAdapterSupject(Context context, ArrayList<Subject> data, onItemClickListener listener) {
+    public CustomRecyclerAdapterDayes(Context context, ArrayList<Presence> data, onItemClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener=listener;
@@ -28,24 +30,14 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item_proj,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.item_days,parent,false);
 
         return new MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int i) {
-        holder.subjectName.setText(data.get(i).getSubjectName());
-
-        holder.recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(data.get(i),holder.getAdapterPosition());
-
-            }
-        });
-
-
+    public void onBindViewHolder(@NonNull MyHolder holder, int i) {
+        holder.name.setText(data.get(i).getDay()+"");
     }
 
     @Override
@@ -54,18 +46,17 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{
-        TextView subjectName;
-
+        TextView name;
         ConstraintLayout recyclerView;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            subjectName = itemView.findViewById(R.id.t_supName);
+            name = itemView.findViewById(R.id.tv_dayes);
             recyclerView=itemView.findViewById(R.id.recyclerView);
 
         }
     }
 
     public interface onItemClickListener{
-        void onItemClick(Subject subject, int adapterPosition);
+        void onItemClick(Presence student, int adapterPosition);
     }
 }

@@ -12,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.ahmmedalmzini783.progectfinish.adoapter.CustomRecyclerAdapterSupject;
+import com.ahmmedalmzini783.progectfinish.classt.Subject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {

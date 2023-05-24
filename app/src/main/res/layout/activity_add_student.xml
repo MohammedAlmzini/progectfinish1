@@ -22,7 +22,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/MyTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:counterEnabled="true"
@@ -30,6 +30,7 @@
         app:counterMaxLength="25"
         app:endIconMode="clear_text"
         app:helperTextTextColor="#ED0404"
+        app:boxStrokeColor="#ED0404"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -38,6 +39,7 @@
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/cairo"
+            app:boxStrokeColor="#FF0000"
 
             >
 

@@ -13,4 +13,22 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- تعديل لون النص التوضيحي -->
+        <item name="android:textColorHint">#FF0000</item>
+
+        <!-- تعديل الحدود -->
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeColor">#00FF00</item>
+
+        <!-- تعديل لون خلفية المربع -->
+        <item name="boxBackgroundColor">#EFEFEF</item>
+
+        <!-- تعديل زاوية الحدود -->
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">0dp</item>
+        <item name="boxCornerRadiusBottomEnd">0dp</item>
+    </style>
 </resources>
