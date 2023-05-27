@@ -22,7 +22,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        style="@style/MyTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:counterEnabled="true"
@@ -109,6 +109,7 @@
         />
 
     <Button
+        android:id="@+id/addButton"
         android:layout_width="200dp"
         android:layout_height="64dp"
         android:layout_margin="16dp"

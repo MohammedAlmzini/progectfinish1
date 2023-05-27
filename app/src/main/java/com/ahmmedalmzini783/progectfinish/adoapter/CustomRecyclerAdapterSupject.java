@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ahmmedalmzini783.progectfinish.R;
@@ -22,7 +23,7 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
     ArrayList<Subject> data;
     onItemClickListener listener;
 
-    public CustomRecyclerAdapterSupject(Context context, ArrayList<Subject> data, onItemClickListener listener) {
+    public CustomRecyclerAdapterSupject(Context context, ArrayList<Subject> data,onItemClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener=listener;
@@ -40,11 +41,10 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
     public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int i) {
         holder.subjectName.setText(data.get(i).getSubjectName());
 
-        holder.recyclerView.setOnClickListener(new View.OnClickListener() {
+        holder.imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(data.get(i),holder.getAdapterPosition());
-
+                listener.onItemDelete(data.get(holder.getAdapterPosition()).getId(),holder.getAdapterPosition());
             }
         });
 
@@ -60,15 +60,18 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
         TextView subjectName;
 
         ConstraintLayout recyclerView;
+
+        ImageView imageDelete;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             subjectName = itemView.findViewById(R.id.t_supName);
             recyclerView=itemView.findViewById(R.id.recyclerView);
+            imageDelete=itemView.findViewById(R.id.imageDelete);
 
         }
     }
 
     public interface onItemClickListener{
-        void onItemClick(Subject subject, int adapterPosition);
+        void onItemDelete(int id,int position);
     }
 }

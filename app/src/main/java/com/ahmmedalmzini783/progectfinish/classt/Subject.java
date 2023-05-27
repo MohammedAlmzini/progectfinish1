@@ -8,7 +8,7 @@ public class Subject {
     public static final String COL_SUBJECT_NAME="subjectName";
     public static final String COL_ID="id";
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
+    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_SUBJECT_NAME + " TEXT)";
 
@@ -34,5 +34,14 @@ public class Subject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "subjectName='" + subjectName + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

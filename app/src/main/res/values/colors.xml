@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="ripple_color">#80000000</color>
     <color name="stroke_color">#FF000000</color>
+    <color name="red">#FF0000</color>
+    <color name="primer">#131111</color>
+
+
 </resources>
