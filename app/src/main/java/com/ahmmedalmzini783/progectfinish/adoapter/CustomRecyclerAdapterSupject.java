@@ -47,6 +47,13 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
                 listener.onItemDelete(data.get(holder.getAdapterPosition()).getId(),holder.getAdapterPosition());
             }
         });
+        holder.recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(data.get(holder.getAdapterPosition()),holder.getAdapterPosition());
+
+            }
+        });
 
 
     }
@@ -73,5 +80,6 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
 
     public interface onItemClickListener{
         void onItemDelete(int id,int position);
+        void onItemClick(Subject subject,int position);
     }
 }

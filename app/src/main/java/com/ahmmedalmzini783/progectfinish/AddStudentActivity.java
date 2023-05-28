@@ -1,32 +1,33 @@
 package com.ahmmedalmzini783.progectfinish;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ahmmedalmzini783.progectfinish.adoapter.StudentAdapter;
+import com.ahmmedalmzini783.progectfinish.adoapter.CustomRecyclerAdapterSupject2;
+import com.ahmmedalmzini783.progectfinish.classt.Subject;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddStudentActivity extends AppCompatActivity {
+public class AddStudentActivity extends AppCompatActivity  {
 
     private TextInputEditText te_name;
     private TextInputEditText te_email;
     private TextInputEditText te_Date;
     private Button addButton;
-    private ListView listView_student;
-    private StudentAdapter studentAdapter;
+    private RecyclerView recyclerview_subject_to_Add;
     private DpHelper dbHelper;
+    private CustomRecyclerAdapterSupject2 adapter;
+    private ArrayList<Subject> subjectsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +38,56 @@ public class AddStudentActivity extends AppCompatActivity {
         te_email = findViewById(R.id.te_email);
         te_Date = findViewById(R.id.te_Date);
         addButton = findViewById(R.id.addButton);
-        listView_student = findViewById(R.id.listView_student);
+        recyclerview_subject_to_Add = findViewById(R.id.recyclerview_subject_to_Add);
+
 
         dbHelper = new DpHelper(getApplicationContext());
-        studentAdapter = new StudentAdapter(this, dbHelper.getAllDataSubject());
-        listView_student.setAdapter(studentAdapter);
+
+        subjectsList = new ArrayList<>(); // قائمة المواد المتاحة
+        // قم بملء subjectsList بالمواد المتاحة من قاعدة البيانات أو أي مصدر آخر
+        // subjectsList = dbHelper.getAllSubjects(); // مثال على استرجاع المواد من قاعدة البيانات
+
+        // قم بتهيئة وتعيين محول العرض (Adapter) لعرض المواد
+        adapter = new CustomRecyclerAdapterSupject2(this, dbHelper.getAllDataSubject(), subjectsList);
+        recyclerview_subject_to_Add.setAdapter(adapter);
+        LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(),RecyclerView.VERTICAL,false);
+        recyclerview_subject_to_Add.setLayoutManager(manager);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // قراءة القيم من الحقول النصية
+                String firstName = te_name.getText().toString();
+                String lastName = te_email.getText().toString();
+                String ageString = te_Date.getText().toString();
+
+                if (firstName.isEmpty() || lastName.isEmpty() || ageString.isEmpty()) {
+                    Toast.makeText(AddStudentActivity.this, "يرجى إدخال جميع الحقول", Toast.LENGTH_SHORT).show();
+                } else {
+                    int age = Integer.parseInt(ageString);
+
+                    // جمع المواد المحددة
+                    ArrayList<Subject> selectedSubjects = adapter.getSelectedSubjects();
+
+                    // إدراج الطالب في قاعدة البيانات
+                    dbHelper = new DpHelper(getApplicationContext());
+                    boolean inserted = dbHelper.insertStudent(firstName, lastName, age, selectedSubjects);
+                    if (inserted) {
+                        Toast.makeText(getApplicationContext(), "تم إضافة الطالب بنجاح", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "حدث خطأ أثناء إضافة الطالب", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
+
 
         te_Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDatePickerDialog();
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addStudent();
             }
         });
     }
@@ -75,32 +109,5 @@ public class AddStudentActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void addStudent() {
-        String firstName = te_name.getText().toString().trim();
-        String lastName = te_email.getText().toString().trim();
-        String ageString = te_Date.getText().toString().trim();
 
-        if (firstName.isEmpty() || lastName.isEmpty() || ageString.isEmpty()) {
-            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }else {
-
-
-            int age = Integer.parseInt(ageString);
-
-            boolean isInserted = dbHelper.insertStudent(firstName, lastName, age);
-
-            if (isInserted) {
-                Toast.makeText(this, "Student added successfully", Toast.LENGTH_SHORT).show();
-                te_name.setText("");
-                te_email.setText("");
-                te_Date.setText("");
-
-                // Refresh student list
-                studentAdapter.updateStudents(dbHelper.getAllDataStudents());
-            } else {
-                Toast.makeText(this, "Failed to add student", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

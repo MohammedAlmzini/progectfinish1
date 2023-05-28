@@ -14,6 +14,7 @@ import com.ahmmedalmzini783.progectfinish.classt.Subject;
 import com.ahmmedalmzini783.progectfinish.classt.Subject_Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -30,6 +31,7 @@ public class DpHelper extends SQLiteOpenHelper {
         db.execSQL(Students.CREATE_TABLE);
         db.execSQL(Subject_Student.CREATE_TABLE);
         db.execSQL(Presence.CREATE_TABLE);
+
 
 
     }
@@ -166,7 +168,7 @@ public class DpHelper extends SQLiteOpenHelper {
 
     public boolean deleteSubject(String id){
         SQLiteDatabase db=getWritableDatabase();
-        int rowID=db.delete(Subject.TABLE_NAME,Subject.COL_ID+"=?",new String[]{id});
+        int rowID=db.delete(Students.TABLE_NAME,Students.COL_ID+"=?",new String[]{id});
         return rowID>0;
     }
 
@@ -207,6 +209,65 @@ public class DpHelper extends SQLiteOpenHelper {
         long row=db.insert(Students.TABLE_NAME,null,values);
         return row>0;
     }
+
+    public boolean insertStudent(String firstName, String lastName, int age, ArrayList<Subject> subjects) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Students.COL_FIRST_NAME, firstName);
+        values.put(Students.COL_LAST_NAME, lastName);
+        values.put(Students.COL_AGE, age);
+        long rowId = db.insert(Students.TABLE_NAME, null, values);
+
+        if (rowId > -1) {
+            // تم إدراج الطالب بنجاح
+            int studentId = (int) rowId;
+            if (subjects != null && !subjects.isEmpty()) {
+                for (Subject subject : subjects) {
+                    ContentValues subjectValues = new ContentValues();
+                    subjectValues.put(Subject_Student.COL_STUDENT_ID, studentId);
+                    subjectValues.put(Subject_Student.COL_SUBJECT_ID, subject.getId());
+                    db.insert(Subject_Student.TABLE_NAME, null, subjectValues);
+                }
+            }
+            return true;
+        } else {
+            // حدث خطأ في إدراج الطالب
+            return false;
+        }
+    }
+
+
+    public ArrayList<Students> getStudentsBySubject(int subjectId) {
+        ArrayList<Students> studentsList = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        // قم بتنفيذ استعلام قاعدة البيانات لاسترداد الطلاب المتعلقين بالمادة المحددة (subjectId)
+        String query = "SELECT * FROM " + Students.TABLE_NAME +
+                " INNER JOIN " + Subject_Student.TABLE_NAME +
+                " ON " + Students.TABLE_NAME + "." + Students.COL_ID + " = " + Subject_Student.TABLE_NAME + "." + Subject_Student.COL_STUDENT_ID +
+                " WHERE " + Subject_Student.TABLE_NAME + "." + Subject_Student.COL_SUBJECT_ID + " = " + subjectId;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_ID));
+                String firstName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_FIRST_NAME));
+                String lastName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_LAST_NAME));
+                int age = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_AGE));
+
+                Students student = new Students(id, firstName, lastName, age);
+                studentsList.add(student);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return studentsList;
+    }
+
+
 
     public boolean updateStudents(String id,String firstName,String lastName,int age ){
         SQLiteDatabase db=getWritableDatabase();
@@ -256,17 +317,28 @@ public class DpHelper extends SQLiteOpenHelper {
     public boolean insertStudent_Subject(int studentId, int subjectId) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Subject_Student.COL_STUDENTS_ID, studentId);
+        values.put(Subject_Student.COL_STUDENT_ID, studentId);
         values.put(Subject_Student.COL_SUBJECT_ID, subjectId);
 
         long row = db.insert(Subject_Student.TABLE_NAME, null, values);
         return row > 0;
     }
+    public long addAttendance(Subject_Student subject_dtudent) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Subject_Student.COL_STUDENT_ID, subject_dtudent.getStudentId());
+        values.put(Subject_Student.COL_SUBJECT_ID, subject_dtudent.getSubjectId());
+        values.put(Subject_Student.COL_PRESENT, 1);
 
+        long id = db.insert(Subject_Student.TABLE_NAME, null, values);
+        db.close();
+
+        return id;
+    }
     public boolean updateStudents_Subject(String id, int studentId, int subjectId) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Subject_Student.COL_STUDENTS_ID, studentId);
+        values.put(Subject_Student.COL_STUDENT_ID, studentId);
         values.put(Subject_Student.COL_SUBJECT_ID, subjectId);
 
         long rowID = db.update(Subject_Student.TABLE_NAME, values, Subject_Student.COL_ID + "=?", new String[]{id});
@@ -289,10 +361,12 @@ public class DpHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 int id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_ID));
-                int student_id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_STUDENTS_ID));
-                int subject_id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_SUBJECT_ID));
+                int student_id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_SUBJECT_ID));
+                int subject_id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_STUDENT_ID));
+//                boolean present=cursor.getBlob(cursor.getColumnIndexOrThrow(Subject_Student.COL_PRESENT));
 
-                Subject_Student subject_Student=new Subject_Student(id,student_id,subject_id);
+
+                Subject_Student subject_Student=new Subject_Student(id,student_id,subject_id,false);
                 data.add(subject_Student);
 
             }while (cursor.moveToNext());
@@ -300,6 +374,35 @@ public class DpHelper extends SQLiteOpenHelper {
         }
         return data;
     }
+
+    // ...
+
+//    public List<Subject_Student> getAllAttendance() {
+//        List<Subject_Student> attendanceList = new ArrayList<>();
+//
+//        String selectQuery = "SELECT * FROM " + Subject_Student.TABLE_NAME;
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                Subject_Student subject_student = new Subject_Student();
+//                subject_student.setId(cursor.getInt(cursor.getColumnIndex(Subject_Student.COL_ID)));
+//                subject_student.setStudentId(cursor.getInt(cursor.getColumnIndex(Subject_Student.COL_STUDENT_ID)));
+//                subject_student.setSubjectId(cursor.getInt(cursor.getColumnIndex(Subject_Student.COL_SUBJECT_ID)));
+//                subject_student.setPresent(cursor.getInt(cursor.getColumnIndex(Subject_Student.COL_PRESENT)) == 1);
+//
+//                attendanceList.add(subject_student);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        cursor.close();
+//        db.close();
+//
+//        return attendanceList;
+//    }
+
 
 
 
@@ -344,7 +447,7 @@ public class DpHelper extends SQLiteOpenHelper {
                 String month=cursor.getString(cursor.getColumnIndexOrThrow(Presence.COL_MONTH));
                 int day=cursor.getInt(cursor.getColumnIndexOrThrow(Presence.COL_DAY));
                 int student_id=cursor.getInt(cursor.getColumnIndexOrThrow(Presence.COL_STUDENT_ID));
-                int subject_id=cursor.getInt(cursor.getColumnIndexOrThrow(Presence.COL_SUBJECT_ID));
+                int subject_id=cursor.getInt(cursor.getColumnIndexOrThrow(Subject_Student.COL_STUDENT_ID));
 
                 Presence presence=new Presence(id,month,day,student_id,subject_id);
                 data.add(presence);

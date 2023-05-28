@@ -138,6 +138,18 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyItemRemoved(position);
                 }
             }
+
+            @Override
+            public void onItemClick(Subject subject, int position) {
+                Subject selectedSubject = data.get(position);
+
+                // تمرير معرف المادة أو المعلومات اللازمة للنشاط الجديد
+                Intent intent = new Intent(getApplicationContext(), StudentInSubjectActivity.class);
+                intent.putExtra("subjectId", selectedSubject.getId());
+                startActivity(intent);
+            }
+
+
         }) {
 
 
