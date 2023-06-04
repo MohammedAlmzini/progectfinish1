@@ -34,7 +34,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/te_name"
+            android:id="@+id/te_first_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
@@ -62,7 +62,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/te_email"
+            android:id="@+id/te_last_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"

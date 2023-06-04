@@ -1,4 +1,4 @@
-package com.ahmmedalmzini783.progectfinish.classt;
+package com.ahmmedalmzini783.progectfinish.models;
 
 public class Subject {
     private String subjectName;
@@ -7,7 +7,7 @@ public class Subject {
 
     public static final String TABLE_NAME = "subject";
     public static final String COL_SUBJECT_NAME = "subjectName";
-    public static final String COL_ID = "id";
+    public static final String COL_ID = "idd";
 
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "

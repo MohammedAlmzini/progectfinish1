@@ -1,51 +1,74 @@
 package com.ahmmedalmzini783.progectfinish;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ahmmedalmzini783.progectfinish.adoapter.CustomRecyclerAdapterSupject;
-import com.ahmmedalmzini783.progectfinish.classt.Subject;
+import com.ahmmedalmzini783.progectfinish.adapter.CustomRecyclerAdapterSupject;
+import com.ahmmedalmzini783.progectfinish.models.Admin;
+import com.ahmmedalmzini783.progectfinish.models.Subject;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     CustomRecyclerAdapterSupject adapter;
     LinearLayout myLayout;
     DpHelper dpHelper;
     RecyclerView recyclerView;
+    TextView tv_name_home;
+    TextView tv_email_home;
+    private AlertDialog alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        TextView tv_name_home=findViewById(R.id.tv_name_home);
-        TextView tv_email_home=findViewById(R.id.tv_email_home);
+        tv_name_home=findViewById(R.id.tv_name_home);
+        tv_email_home=findViewById(R.id.tv_email_home);
 
-        String email = getIntent().getStringExtra("email"); // استرداد البريد الإلكتروني
-        String name = getIntent().getStringExtra("name"); // استرداد اسم المستخدم
-
-        tv_name_home.setText(email);
-        tv_email_home.setText(name);
+        String email = getIntent().getStringExtra("email");
+        String name = getIntent().getStringExtra("name");
+        String password=getIntent().getStringExtra("password");
 
 
 
 
 
-         recyclerView=findViewById(R.id.recvSupject);
+        LinearLayout btnUpdate=findViewById(R.id.btnUpdate);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Admin admin=new Admin(1,password,email,name);
+                Intent intent=new Intent(getApplicationContext(),RegisterActivity2.class);
+                intent.putExtra("admin",admin);
+
+                startActivity(intent);
+            }
+        });
+
+
+        recyclerView=findViewById(R.id.recvSupject);
         ArrayList<Subject> data =new ArrayList<>();
 
 
@@ -54,6 +77,15 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager manager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(manager);
 
+
+        Button btn_All_Student=findViewById(R.id.btn_All_Student);
+        btn_All_Student.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),AllStudentsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -128,15 +160,57 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dpHelper=new DpHelper(this);
-        ArrayList<Subject> data=dpHelper.getAllDataSubject();
-        adapter=new CustomRecyclerAdapterSupject(this, data, new CustomRecyclerAdapterSupject.onItemClickListener() {
+        dpHelper = new DpHelper(this);
+        ArrayList<Subject> data = dpHelper.getAllDataSubject();
+
+
+        dpHelper = new DpHelper(this);
+        ArrayList<Admin> adminList = dpHelper.getAllDataAdmin();
+
+        if (!adminList.isEmpty()) {
+            Admin admin = adminList.get(0);
+            tv_name_home.setText(admin.getUsername());
+            tv_email_home.setText(admin.getEmail());
+        }
+
+        adapter = new CustomRecyclerAdapterSupject(this, data, new CustomRecyclerAdapterSupject.onItemClickListener() {
             @Override
             public void onItemDelete(int id, int position) {
-                if (dpHelper.deleteSubject(String.valueOf(id))){
-                    data.remove(position);
-                    adapter.notifyItemRemoved(position);
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dilog_delet, null);
+                builder.setView(dialogView);
+
+                TextView textViewMessage = dialogView.findViewById(R.id.textMassege);
+                TextView textViewPositive = dialogView.findViewById(R.id.textBosetiv);
+                TextView textViewNegative = dialogView.findViewById(R.id.textNegativ);
+                TextView textViewTitle = dialogView.findViewById(R.id.textViewTitle);
+                textViewTitle.setText("حذف مادة");
+                textViewMessage.setText("هل تريد تأكيد حذف المادة؟");
+                textViewPositive.setText("نعم");
+                textViewNegative.setText("لا");
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+
+                textViewPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dpHelper.deleteSubject(String.valueOf(id))) {
+                            data.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+
+                textViewNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
             }
 
             @Override
@@ -144,20 +218,21 @@ public class MainActivity extends AppCompatActivity {
                 Subject selectedSubject = data.get(position);
 
                 // تمرير معرف المادة أو المعلومات اللازمة للنشاط الجديد
-                Intent intent = new Intent(getApplicationContext(), StudentInSubjectActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MonthActivity.class);
                 intent.putExtra("subjectId", selectedSubject.getId());
                 startActivity(intent);
             }
+        });
 
 
-        }) {
 
 
-
-        };
         recyclerView.setAdapter(adapter);
         GridLayoutManager manager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(manager);
 
     }
+
+
+
 }

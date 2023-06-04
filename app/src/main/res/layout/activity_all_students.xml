@@ -11,13 +11,38 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="اضافة طالب"
+        android:text="جميع الطلاب"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:fontFamily="@font/cairo"
         android:layout_marginTop="16dp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="أدخل الاسم الذي تريد البحث عنه"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/baseline_search"
+        app:helperTextTextColor="#ED0404"
+        app:boxStrokeColor="#ED0404">
 
-    <ListView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/te_serch_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/cairo"
+            app:boxStrokeColor="#FF0000" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_item_all_student"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

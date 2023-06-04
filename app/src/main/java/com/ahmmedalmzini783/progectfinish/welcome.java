@@ -25,16 +25,9 @@ public class welcome extends AppCompatActivity {
                     sleep(4000);
                     SharedPreferences sharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
                     boolean policyAccepted = sharedPref.getBoolean("policy_accepted", false);
-                    String username=sharedPref.getString("username","1");
-                    String password=sharedPref.getString("password","1");
-                    DpHelper dbHelper = new DpHelper(getApplicationContext());
+
                     if (policyAccepted) {
-                        String[] userData = dbHelper.loginData(username, password);
-                        String email = userData[0];
-                        String name = userData[1];
                         Intent main=new Intent(getApplicationContext(), MainActivity.class);
-                        main.putExtra("email", email);
-                        main.putExtra("name", name);
                         startActivity(main);
                         finish();
                     } else {

@@ -19,6 +19,7 @@
         android:layout_marginTop="16dp" />
 
     <LinearLayout
+        android:id="@+id/btnUpdate"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/backcard"
@@ -138,6 +139,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_All_Student"
             android:layout_width="0dp"
             android:layout_height="62dp"
             android:layout_margin="16dp"

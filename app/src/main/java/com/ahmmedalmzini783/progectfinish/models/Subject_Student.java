@@ -1,4 +1,4 @@
-package com.ahmmedalmzini783.progectfinish.classt;
+package com.ahmmedalmzini783.progectfinish.models;
 
 public class Subject_Student {
     private int id;

@@ -1,15 +1,12 @@
 package com.ahmmedalmzini783.progectfinish;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ahmmedalmzini783.progectfinish.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddSubjectActivity extends AppCompatActivity {
 

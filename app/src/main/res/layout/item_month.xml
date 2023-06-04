@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shabe2"
+    android:id="@+id/listMonthName"
     android:layout_marginTop="16dp">
 
     <TextView

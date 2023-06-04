@@ -1,8 +1,5 @@
 package com.ahmmedalmzini783.progectfinish;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +11,19 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ahmmedalmzini783.progectfinish.models.Admin;
+
+import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class LoginActivity2 extends AppCompatActivity {
     private EditText mUsernameEditText;
@@ -142,28 +145,29 @@ public class LoginActivity2 extends AppCompatActivity {
                 editor.apply();
 
 
-                if ( passwordValid && usernameValid) {
+                if (passwordValid && usernameValid) {
                     DpHelper dbHelper = new DpHelper(getApplicationContext());
-                    boolean isMatched = dbHelper.login(username, password);
+                    ArrayList<Admin> adminData = dbHelper.getAllDataAdmin();
+                    boolean isMatched = false;
+
+                    for (Admin admin : adminData) {
+                        if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
+                            isMatched = true;
+                            break;
+                        }
+                    }
 
                     if (isMatched) {
-                        String[] userData = dbHelper.loginData(username, password);
-                        String email = userData[0];
-                        String name = userData[1];
-
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("email", email);
-                        intent.putExtra("name", name);
                         startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
-
-                }  else {
+                } else {
                     Toast.makeText(LoginActivity2.this, "يرجى التأكد من القيم المدخلة", Toast.LENGTH_SHORT).show();
-
                 }
+
 
 
 

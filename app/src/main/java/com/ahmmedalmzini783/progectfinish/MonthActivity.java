@@ -1,30 +1,56 @@
 package com.ahmmedalmzini783.progectfinish;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.ahmmedalmzini783.progectfinish.adapter.CustomAdapterMonth;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-
 public class MonthActivity extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listViewMonths;
+    private List<String> monthsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month);
 
-        // Initialize the ListView
-        listView = findViewById(R.id.list_item_all_month);
+        listViewMonths = findViewById(R.id.list_item_all_month);
+        int subjectId = getIntent().getIntExtra("subjectId", 0);
 
-        // Create an array of month names
-        String[] months = {"يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"};
+        // إنشاء قائمة بأسماء الشهور
+        monthsList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 12; i++) {
+            calendar.set(Calendar.MONTH, i);
+            String monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            monthsList.add(monthName);
+        }
 
-        // Create an ArrayAdapter and set it to the ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item_month, R.id.tv_month, months);
-        listView.setAdapter(adapter);
+        CustomAdapterMonth adapter = new CustomAdapterMonth(this, (ArrayList<String>) monthsList);
+        listViewMonths.setAdapter(adapter);
+
+        // إضافة مستمع الحدث لعنصر القائمة
+        listViewMonths.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedMonth = monthsList.get(position);
+
+                // انتقال إلى صفحة الأيام وتمرير الشهر المحدد كمعلمة
+                Intent intent = new Intent(MonthActivity.this, DAyesActivity.class);
+                intent.putExtra("selectedMonth", selectedMonth);
+                intent.putExtra("subjectId", subjectId);
+                startActivity(intent);
+            }
+        });
     }
 }

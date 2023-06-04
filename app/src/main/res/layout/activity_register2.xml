@@ -32,10 +32,11 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/te_name"
+            android:id="@+id/te_nameAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
+            android:fontFamily="@font/cairo"
 
             >
 
@@ -58,10 +59,12 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/te_email"
+            android:id="@+id/te_emailAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
+            android:fontFamily="@font/cairo"
+
 
             >
 
@@ -79,15 +82,17 @@
         app:counterEnabled="true"
         android:hint="password"
         app:counterMaxLength="25"
-        app:endIconMode="clear_text"
+        app:endIconMode="password_toggle"
         app:helperTextTextColor="#ED0404"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/te_password"
+            android:id="@+id/te_passwordAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
+            android:fontFamily="@font/cairo"
+
 
             >
 

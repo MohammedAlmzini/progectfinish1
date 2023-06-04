@@ -1,4 +1,4 @@
-package com.ahmmedalmzini783.progectfinish.adoapter;
+package com.ahmmedalmzini783.progectfinish.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ahmmedalmzini783.progectfinish.R;
-import com.ahmmedalmzini783.progectfinish.classt.Subject;
+import com.ahmmedalmzini783.progectfinish.models.Subject;
 
 import java.util.ArrayList;
 
@@ -71,9 +71,9 @@ public class CustomRecyclerAdapterSupject extends RecyclerView.Adapter<CustomRec
         ImageView imageDelete;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            subjectName = itemView.findViewById(R.id.t_supName);
-            recyclerView=itemView.findViewById(R.id.recyclerView);
-            imageDelete=itemView.findViewById(R.id.imageDelete);
+            subjectName = itemView.findViewById(R.id.t_supNameM);
+            recyclerView=itemView.findViewById(R.id.recyclerViewM);
+            imageDelete=itemView.findViewById(R.id.imageDeleteM);
 
         }
     }
