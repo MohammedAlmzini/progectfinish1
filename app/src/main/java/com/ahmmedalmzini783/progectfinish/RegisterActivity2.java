@@ -28,6 +28,9 @@ public class RegisterActivity2 extends AppCompatActivity {
         te_email=findViewById(R.id.te_emailAdd);
         te_password=findViewById(R.id.te_passwordAdd);
         Button btn_register = findViewById(R.id.btn_register);
+        TextView tv_update=findViewById(R.id.tv_update);
+
+
 
         dpHelper=new DpHelper(this);
 
@@ -42,10 +45,10 @@ public class RegisterActivity2 extends AppCompatActivity {
                 te_email.setText(admin.getEmail());
                 te_password.setText(admin.getPassword());
                 btn_register.setText("Update");
+                tv_update.setText("تحديث الحساب");
             }
         }
 
-        // تعيين المراجع لعناصر واجهة المستخدم
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override

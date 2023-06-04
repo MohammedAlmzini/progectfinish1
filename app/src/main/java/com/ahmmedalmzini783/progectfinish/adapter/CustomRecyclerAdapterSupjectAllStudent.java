@@ -63,6 +63,13 @@ public class CustomRecyclerAdapterSupjectAllStudent extends RecyclerView.Adapter
                 listener.onItemClick(student, holder.getAdapterPosition());
             }
         });
+        holder.recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                listener.onItemLongClick(student,holder.getAdapterPosition());
+                return false;
+            }
+        });
     }
 
 
@@ -90,6 +97,7 @@ public class CustomRecyclerAdapterSupjectAllStudent extends RecyclerView.Adapter
     public interface onItemClickListener{
         void onItemDelete(int id,int position);
         void onItemClick(Students students, int position);
+        void onItemLongClick(Students students, int position);
     }
 
     public void setData(ArrayList<Students> data) {

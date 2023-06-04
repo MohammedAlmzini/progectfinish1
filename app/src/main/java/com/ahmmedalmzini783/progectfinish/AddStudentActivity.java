@@ -37,6 +37,9 @@ public class AddStudentActivity extends AppCompatActivity {
         te_last_name = findViewById(R.id.te_last_name);
         te_Date = findViewById(R.id.te_Date);
         addButton = findViewById(R.id.addButton);
+
+
+
         recyclerview_subject_to_Add = findViewById(R.id.recyclerview_subject_to_Add);
 
         dbHelper = new DpHelper(getApplicationContext());

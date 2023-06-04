@@ -279,6 +279,58 @@ public class DpHelper extends SQLiteOpenHelper {
     }
 
 
+//    public ArrayList<Students> getAllDataStudentsDate(String sortOrder) {
+//        SQLiteDatabase db = getReadableDatabase();
+//        ArrayList<Students> data = new ArrayList<>();
+//
+//        String query = "SELECT * FROM " + Students.TABLE_NAME + " ORDER BY " + Students.COL_DATE_ADDED + " " + sortOrder;
+//
+//        Cursor cursor = db.rawQuery(query, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_ID));
+//                String firstName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_FIRST_NAME));
+//                String lastName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_LAST_NAME));
+//                String parthDay = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_PARTH_DAY));
+//                int age = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_AGE));
+//
+//                Students students = new Students(id, firstName, lastName, age, parthDay);
+//                data.add(students);
+//
+//            } while (cursor.moveToNext());
+//            cursor.close();
+//        }
+//        return data;
+//    }
+
+    public ArrayList<Students> getAllDataStudentsFarezeName(String sortOrder) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Students> data = new ArrayList<>();
+
+        String query = "SELECT * FROM " + Students.TABLE_NAME + " ORDER BY " + Students.COL_FIRST_NAME + " " + sortOrder;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_ID));
+                String firstName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_FIRST_NAME));
+                String lastName = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_LAST_NAME));
+                String parthDay = cursor.getString(cursor.getColumnIndexOrThrow(Students.COL_PARTH_DAY));
+                int age = cursor.getInt(cursor.getColumnIndexOrThrow(Students.COL_AGE));
+
+                Students students = new Students(id, firstName, lastName, age, parthDay);
+                data.add(students);
+
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return data;
+    }
+
+
+
     public ArrayList<Students> getAllStudentsByName(String nameText) {
         ArrayList<Students> data = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -539,6 +591,35 @@ public class DpHelper extends SQLiteOpenHelper {
 
         return formattedPercentage;
     }
+
+    public float getAttendanceRateByMonthAndSubject(String month, int subjectId) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = {Presence.COL_PRESENT};
+        String selection = Presence.COL_MONTH + " = ? AND " + Presence.COL_SUBJECT_ID + " = ?";
+        String[] selectionArgs = {month, String.valueOf(subjectId)};
+
+        Cursor cursor = db.query(Presence.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        int totalDays = cursor.getCount();
+        int totalPresentDays = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                int present = cursor.getInt(cursor.getColumnIndex(Presence.COL_PRESENT));
+                if (present == 1) {
+                    totalPresentDays++;
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        if (totalDays > 0) {
+            return (float) totalPresentDays / totalDays;
+        } else {
+            return 0;
+        }
+    }
+
     public void updatePresence(Presence presence) {
         SQLiteDatabase db = this.getWritableDatabase();
 

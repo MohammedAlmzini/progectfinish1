@@ -2,6 +2,7 @@ package com.ahmmedalmzini783.progectfinish;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahmmedalmzini783.progectfinish.adapter.CustomRecyclerAdapterDayes;
@@ -21,6 +22,14 @@ public class DAyesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dayes);
 
+        int subjectId = getIntent().getIntExtra("subjectId", 0);
+        String selectedMonth = getIntent().getStringExtra("selectedMonth");
+
+        TextView textPesint=findViewById(R.id.textPesint);
+        DpHelper dpHelper=new DpHelper(this);
+        String persint= String.valueOf(dpHelper.getAttendanceRateByMonthAndSubject(selectedMonth,subjectId));
+        textPesint.setText(persint);
+
         RecyclerView list_item_all_dayes = findViewById(R.id.list_item_all_dayes);
 
         data = new ArrayList<>();
@@ -28,8 +37,7 @@ public class DAyesActivity extends AppCompatActivity {
             data.add(new Presence(i));
         }
 
-        int subjectId = getIntent().getIntExtra("subjectId", 0);
-        String selectedMonth = getIntent().getStringExtra("selectedMonth");
+
         Toast.makeText(this, selectedMonth, Toast.LENGTH_SHORT).show();
 
         CustomRecyclerAdapterDayes adapter = new CustomRecyclerAdapterDayes(this, data, new CustomRecyclerAdapterDayes.onItemClickListener() {

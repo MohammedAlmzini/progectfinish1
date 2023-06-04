@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.ahmmedalmzini783.progectfinish.adapter.CustomRecyclerAdapterSupjectAllStudent;
 import com.ahmmedalmzini783.progectfinish.models.Students;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +33,25 @@ public class AllStudentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_students);
+
+    }
+
+    public void searchStudents(String view) {
+        String searchText = searchEditText.getText().toString().trim();
+
+        ArrayList<Students> searchedData = dpHelper.getAllStudentsByName(searchText);
+        adapter.setData(searchedData);
+        adapter.notifyDataSetChanged();
+    }
+    private void performSearch() {
+        String searchText = searchEditText.getText().toString().trim();
+
+        searchStudents(searchText);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         searchEditText = findViewById(R.id.te_serch_name);
         TextInputLayout searchTextInputLayout = findViewById(R.id.textInputLayout_search);
 
@@ -105,6 +128,16 @@ public class AllStudentsActivity extends AppCompatActivity {
                 intent.putExtra("studentId", studentId);
                 startActivity(intent);
             }
+
+            @Override
+            public void onItemLongClick(Students students, int position) {
+                int studentId = students.getId();
+
+                Intent intent = new Intent(getApplicationContext(), UpdateStudent.class);
+
+                intent.putExtra("studentId", studentId);
+                startActivity(intent);
+            }
         });
 
         recyclerView.setAdapter(adapter);
@@ -112,17 +145,35 @@ public class AllStudentsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
     }
 
-    public void searchStudents(String view) {
-        String searchText = searchEditText.getText().toString().trim();
-
-        ArrayList<Students> searchedData = dpHelper.getAllStudentsByName(searchText);
-        adapter.setData(searchedData);
-        adapter.notifyDataSetChanged();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-    private void performSearch() {
-        String searchText = searchEditText.getText().toString().trim();
 
-        searchStudents(searchText);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.itemNameFarez:
+                Snackbar.make(getWindow().getDecorView().getRootView(),"تم الفرز حسب الإسم", Snackbar.LENGTH_LONG).show();
+                recyclerView = findViewById(R.id.list_item_all_student);
+                dpHelper = new DpHelper(this);
+                ArrayList<Students> studentsListByName = dpHelper.getAllDataStudentsFarezeName("ASC");
+                adapter.setData(studentsListByName);
+                adapter.notifyDataSetChanged();
+                return true;
+            case R.id.itemDateFarez:
+                Snackbar.make(getWindow().getDecorView().getRootView(),"تم الفرز حسب تاريخ الإضافة", Snackbar.LENGTH_LONG).show();
+                recyclerView = findViewById(R.id.list_item_all_student);
+                dpHelper = new DpHelper(this);
+                ArrayList<Students> studentsListByDate = dpHelper.getAllDataStudents();
+                adapter.setData(studentsListByDate);
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
 
 }
