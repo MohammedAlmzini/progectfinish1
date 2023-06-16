@@ -39,13 +39,12 @@ public class MonthActivity extends AppCompatActivity {
         CustomAdapterMonth adapter = new CustomAdapterMonth(this, (ArrayList<String>) monthsList);
         listViewMonths.setAdapter(adapter);
 
-        // إضافة مستمع الحدث لعنصر القائمة
         listViewMonths.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedMonth = monthsList.get(position);
 
-                // انتقال إلى صفحة الأيام وتمرير الشهر المحدد كمعلمة
+                // انتقال إلى صفحة الأيام وتمرير الشهر المحدد
                 Intent intent = new Intent(MonthActivity.this, DAyesActivity.class);
                 intent.putExtra("selectedMonth", selectedMonth);
                 intent.putExtra("subjectId", subjectId);

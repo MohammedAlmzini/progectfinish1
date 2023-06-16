@@ -46,6 +46,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
         subjectsList = new ArrayList<>();
         adapter = new CustomRecyclerAdapterSupject2(this, dbHelper.getAllDataSubject(), subjectsList);
+
         recyclerview_subject_to_Add.setAdapter(adapter);
         LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(),RecyclerView.VERTICAL,false);
         recyclerview_subject_to_Add.setLayoutManager(manager);

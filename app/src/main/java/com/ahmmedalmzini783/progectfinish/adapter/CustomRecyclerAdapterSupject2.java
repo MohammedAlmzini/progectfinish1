@@ -47,10 +47,8 @@ public class CustomRecyclerAdapterSupject2 extends RecyclerView.Adapter<CustomRe
         Subject subject = subjectsList.get(i);
         holder.supjectNameCheck.setText(subject.getSubjectName());
 
-        // تعيين حالة المادة المحددة
         holder.supjectNameCheck.setChecked(subject.isSelected());
 
-        // تعيين الحدث لتغيير حالة المادة المحددة
         holder.supjectNameCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +56,6 @@ public class CustomRecyclerAdapterSupject2 extends RecyclerView.Adapter<CustomRe
                 subject.setSelected(isSelected);
                 holder.supjectNameCheck.setSelected(isSelected);
 
-                // تحديث حالة المادة المحددة في قائمة البيانات (data)
                 data.get(i).setSelected(isSelected);
             }
         });

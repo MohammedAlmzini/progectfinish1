@@ -79,23 +79,18 @@ public class StudentInSubjectActivity extends AppCompatActivity {
             }
         });
 
-        TextView tv_id = findViewById(R.id.tv_id);
 
         recyclerView = findViewById(R.id.recyclerview_students);
         studentsList = new ArrayList<>();
 
-        // استلم المعرف المرتبط بالمادة المحددة من الـ Intent
         subjectId = getIntent().getIntExtra("subjectId", 0);
         selectedMonth = getIntent().getStringExtra("selectedMonth");
         selectedDay = getIntent().getStringExtra("selectedDay");
 
-//        tv_id.setText(subjectId + "        " + selectedMonth + "        " + selectedDay);
 
-        // استخدم المعرف لاستعلام قاعدة البيانات لاسترداد بيانات الطلاب
         dpHelper = new DpHelper(getApplicationContext());
         studentsList = dpHelper.getStudentsBySubject(subjectId);
 
-        // عرض بيانات الطلاب في واجهة المستخدم باستخدام محول العرض (Adapter)
         adapter = new StudentAdapter(this, studentsList, attendanceList);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
@@ -113,11 +108,11 @@ public class StudentInSubjectActivity extends AppCompatActivity {
 
         dpHelper = new DpHelper(getApplicationContext());
 
-        StringBuilder attendanceData = new StringBuilder(); // متغير نصي لجمع البيانات
+        StringBuilder attendanceData = new StringBuilder();
 
         for (int i = 0; i < studentsList.size(); i++) {
             Students student = studentsList.get(i);
-            boolean isPresent = attendanceList.get(i, false); // التحقق مما إذا كان الطالب حاضرًا
+            boolean isPresent = attendanceList.get(i, false);
 
             if (isPresent) {
                 Presence presence = new Presence();
@@ -129,24 +124,16 @@ public class StudentInSubjectActivity extends AppCompatActivity {
 
                 boolean result = dpHelper.insertPresence(presence);
                 if (result) {
-                    // تم تخزين حضور الطالب بنجاح
-                    attendanceData.append("تم تخزين حضور الطالب: ").append(student.getFirstName()).append("\n");
+                    attendanceData.append("تم التخزي ").append(student.getFirstName()).append("\n");
                 } else {
-                    // حدث خطأ في عملية تخزين حضور الطالب
-                    attendanceData.append("حدث خطأ في تخزين حضور الطالب: ").append(student.getFirstName()).append("\n");
+                    attendanceData.append("حدث خطأ ").append(student.getFirstName()).append("\n");
                 }
             }
         }
 
-        // عرض البيانات في Toast
-        Toast.makeText(this, attendanceData.toString(), Toast.LENGTH_LONG).show();
     }
 
 
 
-//    public void displayAttendancePercentage(int studentId) {
-//        double percentage = dpHelper.getAttendancePercentage(subjectId, studentId);
-//        String message = "Attendance Percentage: " + percentage + "%";
-//        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-//    }
+
 }

@@ -88,26 +88,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         ImageView myImageButton = (ImageView) findViewById(R.id.my_image_button);
         myImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

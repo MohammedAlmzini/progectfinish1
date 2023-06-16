@@ -42,14 +42,9 @@ public class CustomRecyclerAdapterSupjectAllStudent extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, @SuppressLint("RecyclerView") int i) {
         Students student = data.get(i);
-        holder.subjectName.setText(student.getFirstName());
+        holder.subjectName.setText(student.getFirstName()+" "+ student.getLastName());
 
-        // احصل على نسبة الحضور للطالب في المادة وقم بتعيينها في TextView suParsen
         dpHelper = new DpHelper(context.getApplicationContext());
-
-//        double attendancePercentage = dpHelper.getAttendancePercentage(1, student.getId());
-//        String attendanceText = "نسبة حضور الطالب: " + attendancePercentage + "%";
-//        holder.suParsen.setText(attendanceText);
 
         holder.imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override

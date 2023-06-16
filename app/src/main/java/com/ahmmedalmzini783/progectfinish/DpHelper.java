@@ -179,7 +179,6 @@ public class DpHelper extends SQLiteOpenHelper {
         long rowId = db.insert(Students.TABLE_NAME, null, values);
 
         if (rowId > -1) {
-            // تم إدراج الطالب بنجاح
             int studentId = (int) rowId;
             if (subjects != null && !subjects.isEmpty()) {
                 for (Subject subject : subjects) {

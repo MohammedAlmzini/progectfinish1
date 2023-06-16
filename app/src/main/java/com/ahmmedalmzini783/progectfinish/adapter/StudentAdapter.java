@@ -47,14 +47,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyHolder
                 attendanceList.put(position, isChecked);
             }
         });
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int studentId = student.getId();
-//                ((StudentInSubjectActivity) context).displayAttendancePercentage(studentId);
-//            }
-//        });
     }
 
     @Override
